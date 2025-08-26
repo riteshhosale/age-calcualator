@@ -1,25 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
-    <title>Age Calculator</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎂 Age Calculator</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Age Calculator</h1>
-        <div class="form">
-            <label for="Birthday">
-                Enter you date of birth
-            </label>
-            <input type="date" id="Birthday" name="Birthday">
-            <button id="btn">Calculate Age</button>
-            <p id="result">
-                Now we are Calculate your age
-            </p>
-        </div>
+  <div class="container">
+    <!-- Header with icon -->
+    <h1>📅 Age Calculator</h1>
+    <p class="subtitle">Easily find out your exact age in years, months, and days ⏳</p>
+
+    <!-- Form section -->
+    <div class="form">
+      <label for="Birthday">Enter your date of birth 🎂</label>
+      <input type="date" id="Birthday" name="Birthday">
+
+      <button id="btn">Calculate Age</button>
+      <button id="resetBtn" type="button">Reset</button>
+
+      <!-- Result box -->
+      <p id="result">✨ Now we will calculate your age ✨</p>
     </div>
-    <script src="script.js"></script>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>Made with ❤️ by <strong>Ritesh</strong></p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

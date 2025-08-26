@@ -1,32 +1,82 @@
 const btnE1 = document.getElementById("btn");
-    const birthdayE1 = document.getElementById("Birthday");
-    const resultE1 = document.getElementById("result");
+const resetBtn = document.getElementById("resetBtn");
+const birthdayE1 = document.getElementById("Birthday");
+const resultE1 = document.getElementById("result");
 
-    function calculateAge() {
-      const birthdayValue = birthdayE1.value;
-      if (birthdayValue === "") {
-        alert("Please enter your birthday");
-      } else {
-        const age = getAge(birthdayValue);
-        resultE1.innerText = `Your age is ${age} ${age > 1 ? "years" : "year"} old`;
-      }
-    }
+let typingTimer = null; // so we can cancel previous typing animations
 
-    function getAge(birthdayValue) {
-      const currentDate = new Date();
-      const birthdayDate = new Date(birthdayValue);
-      let age = currentDate.getFullYear() - birthdayDate.getFullYear();
-      const month = currentDate.getMonth() - birthdayDate.getMonth();
+// Prevent choosing a future date in the picker
+birthdayE1.max = new Date().toISOString().split("T")[0];
 
-      // If birthday hasn't happened yet this year, subtract 1
-      if (
-        month < 0 ||
-        (month === 0 && currentDate.getDate() < birthdayDate.getDate())
-      ) {
-        age--;
-      }
+// Events
+btnE1.addEventListener("click", calculateAge);
+resetBtn?.addEventListener("click", resetForm);
+birthdayE1.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") calculateAge();
+});
 
-      return age;
-    }
+function resetForm() {
+  if (typingTimer) clearInterval(typingTimer);
+  birthdayE1.value = "";
+  resultE1.textContent = "✨ Now we will calculate your age ✨";
+}
 
-    btnE1.addEventListener("click", calculateAge);
+function calculateAge() {
+  const value = birthdayE1.value;
+  if (!value) return showResult("⚠️ Please enter your birthday");
+
+  const birthDate = parseDateLocal(value); // timezone-safe
+  const today = new Date();
+
+  if (birthDate > today) {
+    return showResult("⚠️ Please select a past date (no future birthdays).");
+  }
+
+  const { years, months, days } = diffYMD(birthDate, today);
+  const msg = `🎂 You are ${years} ${plural(years, "year")}, ${months} ${plural(months, "month")} and ${days} ${plural(days, "day")} old 🎉`;
+  typeEffect(msg);
+}
+
+// Parse "YYYY-MM-DD" as a LOCAL date (avoids UTC shift issues)
+function parseDateLocal(yyyy_mm_dd) {
+  const [y, m, d] = yyyy_mm_dd.split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
+
+// Difference in years, months, days
+function diffYMD(from, to) {
+  let years = to.getFullYear() - from.getFullYear();
+  let months = to.getMonth() - from.getMonth();
+  let days = to.getDate() - from.getDate();
+
+  if (days < 0) {
+    months -= 1;
+    const prevMonth = new Date(to.getFullYear(), to.getMonth(), 0);
+    days += prevMonth.getDate();
+  }
+  if (months < 0) {
+    years -= 1;
+    months += 12;
+  }
+  return { years, months, days };
+}
+
+function plural(n, word) {
+  return n === 1 ? word : word + "s";
+}
+
+function showResult(text) {
+  if (typingTimer) clearInterval(typingTimer);
+  resultE1.textContent = text;
+}
+
+function typeEffect(text) {
+  if (typingTimer) clearInterval(typingTimer);
+  resultE1.textContent = "";
+  let i = 0;
+  const speed = 25; // ms per char
+  typingTimer = setInterval(() => {
+    resultE1.textContent += text.charAt(i++);
+    if (i >= text.length) clearInterval(typingTimer);
+  }, speed);
+}

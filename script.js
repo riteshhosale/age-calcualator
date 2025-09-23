@@ -2,6 +2,8 @@ const btnE1 = document.getElementById("btn");
 const resetBtn = document.getElementById("resetBtn");
 const birthdayE1 = document.getElementById("Birthday");
 const resultE1 = document.getElementById("result");
+const loader = document.getElementById("loader");
+const dots = document.getElementById("dots");
 
 let typingTimer = null; // so we can cancel previous typing animations
 
@@ -19,6 +21,7 @@ function resetForm() {
   if (typingTimer) clearInterval(typingTimer);
   birthdayE1.value = "";
   resultE1.textContent = "✨ Now we will calculate your age ✨";
+  hideLoader();
 }
 
 function calculateAge() {
@@ -32,9 +35,17 @@ function calculateAge() {
     return showResult("⚠️ Please select a past date (no future birthdays).");
   }
 
-  const { years, months, days } = diffYMD(birthDate, today);
-  const msg = `🎂 You are ${years} ${plural(years, "year")}, ${months} ${plural(months, "month")} and ${days} ${plural(days, "day")} old 🎉`;
-  typeEffect(msg);
+  // Show loader while "calculating"
+  showLoader();
+
+  // Simulate a short delay (so loader is visible)
+  setTimeout(() => {
+    const { years, months, days } = diffYMD(birthDate, today);
+    const msg = `🎂 You are ${years} ${plural(years, "year")}, ${months} ${plural(months, "month")} and ${days} ${plural(days, "day")} old 🎉`;
+
+    hideLoader();
+    typeEffect(msg);
+  }, 1000); // 1s delay for effect
 }
 
 // Parse "YYYY-MM-DD" as a LOCAL date (avoids UTC shift issues)
@@ -68,6 +79,7 @@ function plural(n, word) {
 function showResult(text) {
   if (typingTimer) clearInterval(typingTimer);
   resultE1.textContent = text;
+  hideLoader();
 }
 
 function typeEffect(text) {
@@ -79,4 +91,16 @@ function typeEffect(text) {
     resultE1.textContent += text.charAt(i++);
     if (i >= text.length) clearInterval(typingTimer);
   }, speed);
+}
+
+// Loader functions
+function showLoader() {
+  loader.style.display = "block";
+  dots.style.display = "block";
+  resultE1.textContent = ""; // clear previous result
+}
+
+function hideLoader() {
+  loader.style.display = "none";
+  dots.style.display = "none";
 }

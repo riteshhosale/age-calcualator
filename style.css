@@ -18,8 +18,8 @@ body {
   animation: fadeIn 1s ease-in-out;
 }
 
-/* Main form container */
-.form {
+/* Main container (card) */
+.container {
   background: #fff;
   padding: 30px;
   border-radius: 20px;
@@ -30,13 +30,13 @@ body {
   animation: slideUp 1s ease, float 4s ease-in-out infinite;
 }
 
-.form:hover {
+.container:hover {
   transform: translateY(-6px);
   box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.3);
 }
 
 /* Heading */
-h1 {
+.container h1 {
   margin-bottom: 10px;
   font-size: 30px;
   color: #2193b0;
@@ -50,7 +50,7 @@ h1 {
   font-style: italic;
 }
 
-/* Label + Input */
+/* Form styling */
 .form label {
   display: block;
   margin-bottom: 8px;

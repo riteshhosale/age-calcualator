@@ -18,8 +18,8 @@ body {
   animation: fadeIn 1s ease-in-out;
 }
 
-/* Main container */
-.container {
+/* Main form container */
+.form {
   background: #fff;
   padding: 30px;
   border-radius: 20px;
@@ -30,13 +30,13 @@ body {
   animation: slideUp 1s ease, float 4s ease-in-out infinite;
 }
 
-.container:hover {
+.form:hover {
   transform: translateY(-6px);
   box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.3);
 }
 
 /* Heading */
-.container h1 {
+h1 {
   margin-bottom: 10px;
   font-size: 30px;
   color: #2193b0;
@@ -50,7 +50,7 @@ body {
   font-style: italic;
 }
 
-/* Form styling */
+/* Label + Input */
 .form label {
   display: block;
   margin-bottom: 8px;

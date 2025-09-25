@@ -1,6 +1,4 @@
-Here’s a more informative and professional README.md template for your age calculator project on GitHub. You can copy, edit, and use this in your repository to help users understand and utilize your project:
 
----
 
 # Age Calculator
 
